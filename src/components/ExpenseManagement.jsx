@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
-const ExpenseManagement = () => {
-  const navigate = useNavigate();
-
+const ExpenseManagement = ({ navigateTo }) => {
   const products = [
     {
       id: 1,
@@ -28,7 +25,7 @@ const ExpenseManagement = () => {
     <div className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigateTo('dashboard')}
           className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors mb-8 group"
         >
           <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />

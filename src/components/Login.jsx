@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, User } from 'lucide-react';
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,7 +11,7 @@ const Login = ({ onLogin }) => {
     
     if (username === 'User101' && password === 'DemoLogin') {
       setError('');
-      onLogin();
+      onLoginSuccess();
     } else {
       setError('Invalid credentials');
     }

@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Car, Receipt, Dumbbell, Building2, Pill, Users, School } from 'lucide-react';
 
-const MainDashboard = () => {
-  const navigate = useNavigate();
-
+const MainDashboard = ({ navigateTo }) => {
   const categories = [
     {
       id: 'parking',
@@ -60,14 +57,15 @@ const MainDashboard = () => {
   return (
     <div className="min-h-screen bg-white px-4 py-8 md:py-12">
       <div className="max-w-6xl mx-auto">
+        <header className="flex justify-between items-center mb-8">
+          <img 
+            src="https://www.iproat.com/wp-content/uploads/2025/01/cropped-iProAT-Solutions-Black-180x60.png" 
+            alt="iProAT Solutions" 
+            className="h-10 md:h-12"
+          />
+        </header>
+
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <img 
-              src="https://www.iproat.com/wp-content/uploads/2025/01/cropped-iProAT-Solutions-Black-180x60.png" 
-              alt="iProAT Solutions" 
-              className="h-12 md:h-14"
-            />
-          </div>
           <h1 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-2">
             iProAT Product Suite
           </h1>
@@ -82,7 +80,7 @@ const MainDashboard = () => {
             return (
               <button
                 key={category.id}
-                onClick={() => navigate(`/${category.id}`)}
+                onClick={() => navigateTo(category.id)}
                 className={`${category.color} rounded-2xl p-6 text-left shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100`}
               >
                 <div className="flex items-center space-x-4">

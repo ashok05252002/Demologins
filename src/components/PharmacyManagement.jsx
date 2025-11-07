@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
-const PharmacyManagement = () => {
-  const navigate = useNavigate();
-
+const PharmacyManagement = ({ navigateTo }) => {
   const products = [
     {
       id: 1,
@@ -28,7 +25,7 @@ const PharmacyManagement = () => {
     <div className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigateTo('dashboard')}
           className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors mb-8 group"
         >
           <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
@@ -51,8 +48,7 @@ const PharmacyManagement = () => {
               className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200"
             >
               <div className="flex justify-center mb-4">
-                <img 
-                  src="https://www.iproat.com/wp-content/uploads/2025/01/cropped-iProAT-Solutions-Black-180x60.png" 
+                <img                   src="https://www.iproat.com/wp-content/uploads/2025/01/cropped-iProAT-Solutions-Black-180x60.png" 
                   alt="iProAT Solutions" 
                   className="h-10"
                 />

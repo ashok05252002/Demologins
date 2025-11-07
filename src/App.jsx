@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Login from './components/Login';
 import MainDashboard from './components/MainDashboard';
@@ -18,7 +17,7 @@ const pageVariants = {
   exit: { opacity: 0, y: -20 }
 };
 
-const AnimatedRoute = ({ children }) => (
+const AnimatedPage = ({ children }) => (
   <motion.div
     variants={pageVariants}
     initial="initial"
@@ -31,53 +30,50 @@ const AnimatedRoute = ({ children }) => (
 );
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [page, setPage] = useState('login');
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
-    navigate('/');
+    setPage('dashboard');
   };
 
-  const ProtectedWrapper = ({ children }) => {
-    if (!isLoggedIn) {
-      return <Navigate to="/login" replace />;
+  const navigateTo = (targetPage) => {
+    setPage(targetPage);
+  };
+
+  const renderPage = () => {
+    switch (page) {
+      case 'login':
+        return <AnimatedPage key="login"><Login onLoginSuccess={handleLogin} /></AnimatedPage>;
+      case 'dashboard':
+        return <AnimatedPage key="dashboard"><MainDashboard navigateTo={navigateTo} /></AnimatedPage>;
+      case 'expense':
+        return <AnimatedPage key="expense"><ExpenseManagement navigateTo={navigateTo} /></AnimatedPage>;
+      case 'parking':
+        return <AnimatedPage key="parking"><ParkingManagement navigateTo={navigateTo} /></AnimatedPage>;
+      case 'gym':
+        return <AnimatedPage key="gym"><GymManagement navigateTo={navigateTo} /></AnimatedPage>;
+      case 'tenant':
+        return <AnimatedPage key="tenant"><TenantManagement navigateTo={navigateTo} /></AnimatedPage>;
+      case 'pharmacy':
+        return <AnimatedPage key="pharmacy"><PharmacyManagement navigateTo={navigateTo} /></AnimatedPage>;
+      case 'propeople':
+        return <AnimatedPage key="propeople"><Propeople navigateTo={navigateTo} /></AnimatedPage>;
+      case 'proschool':
+        return <AnimatedPage key="proschool"><ProSchool navigateTo={navigateTo} /></AnimatedPage>;
+      default:
+        return <AnimatedPage key="login-default"><Login onLoginSuccess={handleLogin} /></AnimatedPage>;
     }
-    return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex-grow">{children}</div>
-        <Footer />
-      </div>
-    );
   };
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route 
-          path="/login" 
-          element={
-            <AnimatedRoute>
-              <Login onLogin={handleLogin} />
-            </AnimatedRoute>
-          } 
-        />
-        
-        <Route element={<ProtectedWrapper />}>
-          <Route path="/" element={<AnimatedRoute><MainDashboard /></AnimatedRoute>} />
-          <Route path="/expense" element={<AnimatedRoute><ExpenseManagement /></AnimatedRoute>} />
-          <Route path="/parking" element={<AnimatedRoute><ParkingManagement /></AnimatedRoute>} />
-          <Route path="/gym" element={<AnimatedRoute><GymManagement /></AnimatedRoute>} />
-          <Route path="/tenant" element={<AnimatedRoute><TenantManagement /></AnimatedRoute>} />
-          <Route path="/pharmacy" element={<AnimatedRoute><PharmacyManagement /></AnimatedRoute>} />
-          <Route path="/propeople" element={<AnimatedRoute><Propeople /></AnimatedRoute>} />
-          <Route path="/proschool" element={<AnimatedRoute><ProSchool /></AnimatedRoute>} />
-        </Route>
-
-        <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} replace />} />
-      </Routes>
-    </AnimatePresence>
+    <div className="min-h-screen bg-white flex flex-col">
+      <div className="flex-grow">
+        <AnimatePresence mode="wait">
+          {renderPage()}
+        </AnimatePresence>
+      </div>
+      {page !== 'login' && <Footer />}
+    </div>
   );
 }
 
